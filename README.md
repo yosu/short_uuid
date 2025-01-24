@@ -6,6 +6,7 @@ Based on:
 
 - UUID v4
 - base58 encoding
+- Fixed length (22 characters)
 
 
 ```elixir
