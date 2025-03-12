@@ -4,7 +4,7 @@ defmodule ShortUUID.MixProject do
   def project do
     [
       app: :short_uuid,
-      version: "1.0.0",
+      version: "1.1.0",
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       deps: deps()
@@ -20,6 +20,8 @@ defmodule ShortUUID.MixProject do
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    []
+    [
+      {:ecto, "~> 3.0"}
+    ]
   end
 end

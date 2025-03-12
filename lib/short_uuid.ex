@@ -1,6 +1,6 @@
 defmodule ShortUUID do
   @moduledoc """
-  Short UUID generator.
+  Short UUID generator with Ecto.ParameterizedType behavior.
   """
 
   @base 58
@@ -32,5 +32,45 @@ defmodule ShortUUID do
     |> Enum.take(@len)
     |> Enum.map(&:binary.at(@chars, &1))
     |> to_string()
+  end
+
+  @behaviour Ecto.ParameterizedType
+
+  def init(opts) do
+    Map.new(opts)
+  end
+
+  def type(_param) do
+    :string
+  end
+
+  def cast(value, _) when is_nil(value) or is_binary(value) do
+    {:ok, value}
+  end
+
+  def cast(_, _), do: :error
+
+  def dump(value, _dumper, params) do
+    cast(value, params)
+  end
+
+  def load(value, _loader, params) do
+    cast(value, params)
+  end
+
+  def equal?(a, b, _) do
+    a == b
+  end
+
+  def embed_as(_, _) do
+    :self
+  end
+
+  def autogenerate(%{prefix: prefix}) when is_binary(prefix) do
+    prefix <> generate()
+  end
+
+  def autogenerate(%{}) do
+    generate()
   end
 end
